@@ -46,7 +46,10 @@ jobs:
     with:
       environment: ${{ github.ref_name }}
       app-url: https://workshop-app-${{ github.ref_name }}.example.com
-    secrets: inherit
+    permissions:
+      id-token: read
+    secrets:
+      AWS_IAM_ROLE_ARN: ${{ secrets.AWS_IAM_ROLE_ARN }}
 
   dast:
     needs: deploy-application
