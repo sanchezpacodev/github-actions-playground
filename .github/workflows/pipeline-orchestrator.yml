@@ -47,7 +47,7 @@ jobs:
       environment: ${{ github.ref_name }}
       app-url: https://workshop-app-${{ github.ref_name }}.example.com
     permissions:
-      id-token: read
+      id-token: write
     secrets:
       AWS_IAM_ROLE_ARN: ${{ secrets.AWS_IAM_ROLE_ARN }}
 
