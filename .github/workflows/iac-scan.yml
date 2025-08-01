@@ -9,7 +9,7 @@ on:
 
 jobs:
   iac-scan:
-    name: IAC Scan with Trivy
+    name: IAC Scan with Checkov
     runs-on: ubuntu-latest
     outputs:
       result: ${{ steps.scan-result.outputs.result }}
@@ -19,25 +19,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Run Trivy vulnerability scanner
+      - name: Run Checkov IAC scanner
         id: scan-tool
-        uses: aquasecurity/trivy-action@915b19bbe73b92a6cf82a1bc12b087c9a19a5fe2 # 0.28.0
+        uses: bridgecrewio/checkov-action@99bb2caf247dfd9f03cf984373bc6043d4e32ebf # v12.1347.0
         with:
-          scan-type: 'config'
-          scan-ref: infra/
-          hide-progress: true
-          format: 'sarif'
-          limit-severities-for-sarif: true
-          output: 'trivy-results.sarif'
-          exit-code: '1'
-          severity: 'CRITICAL,HIGH'
-        continue-on-error: false
-
-      - name: Upload Trivy scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@v3
-        if: always()
-        with:
-          sarif_file: 'trivy-results.sarif'
+          directory: infra/
+          framework: terraform
 
       - name: Set scan result
         id: scan-result
