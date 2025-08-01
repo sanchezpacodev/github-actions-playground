@@ -42,13 +42,11 @@ jobs:
     uses: ./.github/workflows/deploy-application.yml
 
   runtime-infra-scan:
-    needs: deploy-application
     uses: ./.github/workflows/runtime-infra-scan.yml
     with:
       environment: ${{ github.ref_name }}
       app-url: https://workshop-app-${{ github.ref_name }}.example.com
-    secrets:
-      AWS_IAM_ROLE_ARN: ${{ secrets.AWS_IAM_ROLE_ARN }}
+    secrets: inherit
 
   dast:
     needs: deploy-application
