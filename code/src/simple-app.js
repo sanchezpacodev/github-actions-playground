@@ -1,6 +1,6 @@
 const http = require('http');
 
-const GITHUB_TOKEN = 'ghp_wWPw5k4aF6wZjF2Fg7s2h3j4k5l6m7n8o9p0';
+const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
 const PORT = process.env.PORT || 3000;
 
