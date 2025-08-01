@@ -19,11 +19,6 @@ jobs:
   secrets-scan:
     needs: pipeline-scan
     uses: ./.github/workflows/secrets-scan.yml
-    permissions:
-      contents: read
-      id-token: write
-      issues: write
-      pull-requests: write
 
   iac-scan:
     needs: pipeline-scan
@@ -42,11 +37,14 @@ jobs:
     uses: ./.github/workflows/deploy-application.yml
 
   runtime-infra-scan:
-    needs: deploy-application
     uses: ./.github/workflows/runtime-infra-scan.yml
     with:
       environment: ${{ github.ref_name }}
       app-url: https://workshop-app-${{ github.ref_name }}.example.com
+    permissions:
+      id-token: write
+    secrets:
+      AWS_IAM_ROLE_ARN: ${{ secrets.AWS_IAM_ROLE_ARN }}
 
   dast:
     needs: deploy-application
