@@ -121,8 +121,8 @@ resource "aws_security_group" "ecs_tasks" {
     from_port   = 0
     to_port     = 0
     protocol    = "tcp"
-    # TODO: Fix ports (0→3000) and CIDR (0.0.0.0/0→VPC)
-    cidr_blocks = ["0.0.0.0/0"]
+    # TODO: data.aws_vpc.existing.cidr_block
+    cidr_blocks = [data.aws_vpc.existing.cidr_block]
   }
 
   egress {
